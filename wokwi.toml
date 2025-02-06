@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = 'build/Interfaces_UART_SPI_12C_U4C6_EmbarcaTech.uf2'
+elf = 'build/Interfaces_UART_SPI_12C_U4C6_EmbarcaTech.elf'
