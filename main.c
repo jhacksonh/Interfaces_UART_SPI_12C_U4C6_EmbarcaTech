@@ -9,9 +9,6 @@
 #include "oled.h"
 #include "leds.h"
 #include "numbers0_9.h"
-// #include "font.h"
-
-
 
 #define I2C_PORT i2c1
 #define endereco 0x3C
@@ -31,7 +28,6 @@ static void config_pin(uint pin, bool outPut, bool pullup) {
   if(pullup)gpio_pull_up(pin);
   if(!pullup)gpio_put(pin, 0);
 }
-
 void Interface_UART_USB(){
   char c;
   if (stdio_usb_connected()){ // Certifica-se de que o USB está conectado
@@ -67,7 +63,6 @@ void mudar_cor(uint gpio, uint32_t events){
         index--;
     break;
   }
-  printf("index: GPIO%d%d\n", index,gpio);
   index = index == 3 ? 0 : index == -1 ? 2 : index; 
   for (int i = 0; i < 3; i++)gpio_put(PINS_RGB[i], i==index);
 }
@@ -93,9 +88,9 @@ int main(){
   while (true){
     oled_Clear(); //limpa o oled
     oled_Draw_Rectangle(0, 0, 126, 62, false); // Desenha um retângulo no na borda do oled
-    oled_Write_String("CEPEDI L TIC37", 8, 10);// Desenha uma string no oled
+    oled_Write_String("CEPEDI   TIC37", 8, 10);// Desenha uma string no oled
     oled_Write_String("EMBARCATECH", 20, 30);// Desenha uma string no oled
-    oled_Write_String("JHACKSONH", 15, 48);// Desenha uma string no oled
+    oled_Write_String("Jhacksonh", 15, 48);// Desenha uma string no oled
     oled_Update(); // atualiza o oled com novas as informações passadas
     ws2812_Map_leds_ON(framesNums0_9[in_leds], colorsFrames[in_leds], framesNums0_9[lenNumFrames-1][in_leds], true);
     in_leds = in_leds == 9 ? 0 : in_leds+1;

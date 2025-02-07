@@ -31,8 +31,8 @@ void ColorsGenerate(){
         for (int frameLen= 0; frameLen<framesNums0_9[lenNumFrames-1][colorsLen]; frameLen++) {
             // Define a cor para cada pixel
             colorsFrames[colorsLen][frameLen][0] = 0; // Vermelho
-            colorsFrames[colorsLen][frameLen][1] = 25; // Verde
-            colorsFrames[colorsLen][frameLen][2] = 200; // Azul
+            colorsFrames[colorsLen][frameLen][1] = 5; // Verde
+            colorsFrames[colorsLen][frameLen][2] = 10; // Azul
         }
     }
 }
