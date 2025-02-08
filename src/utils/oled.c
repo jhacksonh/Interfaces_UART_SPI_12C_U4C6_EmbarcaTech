@@ -12,8 +12,9 @@ static ssd1306_t ssd; // Inicializa a estrutura do display
 static uint8_t font_width = 6;   // Defina a largura da fonte
 static uint8_t font_height = 7;  // Defina a altura da fonte
 static int FONT_START_0_9 = 16;
-static int FONT_START_ABC = 27;
-static int FONT_START_abc = 53;
+static int FONT_START_ABC = 33;
+static int FONT_START_abc = 59;
+static int FONT_START_pontuations = 26;
 
 void oled_Init(uint pin_i2c_sda, uint pin_i2c_scl){
   // I2C Initialisation. Using it at 400Khz.
@@ -27,17 +28,29 @@ void oled_Init(uint pin_i2c_sda, uint pin_i2c_scl){
   ssd1306_send_data(&ssd); // Envia os dados para o display
   oled_Clear();
 }
+void oled_Draw_draw(uint8_t draw[], uint8_t x, uint8_t y, uint8_t width, uint8_t height){
+  for (uint8_t i = 0; i < height; i++){  // Percorre as linhas do caractere
+    uint8_t line = draw[i];  // Obtém a linha correspondente do caractere
+    for (uint8_t j = 0; j < width; j++){  // Percorre os pixels na horizontal
+      //váriável para mudar o setido da linha pegar do utimo bit pro primeiro
+      uint rotX = x+width-j;
+      ssd1306_pixel(&ssd, rotX, y+i, line & (1 << j));  // Define o pixel no display
+    }
+  }
+}
+
 // Função para desenhar um caractere no display
 void oled_Write_Char(char c, uint8_t x, uint8_t y){
   uint16_t index = 0;
-  if (c >= 'A' && c <= 'Z')index = (c - 'A' + FONT_START_ABC) * font_height; // Letras maiúsculas
+  if (c >= ' ' && c <= '/')index = (c - ' ') * font_height; // Caracteres especiais
+  else if (c >= 'A' && c <= 'Z')index = (c - 'A' + FONT_START_ABC) * font_height; // Letras maiúsculas
   else if (c >= 'a' && c <= 'z')index = (c - 'a' + FONT_START_abc) * font_height; // Letras minúsculas
-  else if (c >= '0' && c <= '9')index = (c - '0' + FONT_START_0_9) * font_height; // números
-
+  else if (c >= '0' && c <= '@')index = (c - '0' + FONT_START_0_9) * font_height; // números e pontuações
+  // else if (c == '')index = 0;
   for (uint8_t i = 0; i < font_height; i++){  // Percorre as linhas do caractere
     uint8_t line = font[index + i];  // Obtém a linha correspondente do caractere
     for (uint8_t j = 0; j < font_width; j++){  // Percorre os pixels na horizontal
-      //váriável para mudar o setido da linha pegar do utimo bit pro primeiro (faça)
+      //váriável para mudar o setido da linha pegar do utimo bit pro primeiro
       uint rotX = x+(font_width-1) - j;
       ssd1306_pixel(&ssd, rotX, y + i, line & (1 << j));  // Define o pixel no display
     }
